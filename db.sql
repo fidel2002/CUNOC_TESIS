@@ -21,13 +21,37 @@ CREATE TABLE Estudiante (
     estado BOOLEAN NOT NULL DEFAULT TRUE
 );
 
+-- Tabla Estudiante_Carrera
 CREATE TABLE estudiante_carrera(
     id_estudiante INT NOT NULL,
     id_carrera INT NOT NULL,
     estado BOOLEAN NOT NULL DEFAULT TRUE,
     FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id_estudiante),
     FOREIGN KEY (id_carrera) REFERENCES Carrera(id_carrera),
-    CONSTRAINT pk_estudiante_carrera PRIMARY KEY (id_estudiante,id_carrera)
+    CONSTRAINT pk_estudiante_carrera PRIMARY KEY (id_estudiante, id_carrera)
+);
+
+-- Tabla Tesis
+CREATE TABLE Tesis (
+    id_tesis INT AUTO_INCREMENT PRIMARY KEY,
+    tema VARCHAR(255) NOT NULL,
+    fecha_inicio DATE NOT NULL,
+    fecha_fin DATE,
+    id_estudiante INT UNIQUE,
+    id_asesor INT,
+    estado BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+-- Tabla Estudiante_Tesis
+CREATE TABLE estudiante_tesis (
+    id_estudiante INT NOT NULL,
+    id_carrera INT NOT NULL,
+    id_tesis INT NOT NULL,
+    FOREIGN KEY (id_estudiante, id_carrera) 
+        REFERENCES estudiante_carrera(id_estudiante, id_carrera),
+    FOREIGN KEY (id_tesis) 
+        REFERENCES Tesis(id_tesis),
+    CONSTRAINT pk_estudiante_tesis PRIMARY KEY (id_estudiante, id_carrera, id_tesis)
 );
 
 -- Tabla Asesor
@@ -39,17 +63,12 @@ CREATE TABLE Asesor (
     estado BOOLEAN NOT NULL DEFAULT TRUE
 );
 
--- Tabla Tesis
-CREATE TABLE Tesis (
-    id_tesis INT AUTO_INCREMENT PRIMARY KEY,
-    tema VARCHAR(255) NOT NULL,
-    fecha_inicio DATE NOT NULL,
-    fecha_fin DATE,
-    id_estudiante INT UNIQUE,
-    id_asesor INT,
-    estado BOOLEAN NOT NULL DEFAULT TRUE,
-    FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id_estudiante),
-    FOREIGN KEY (id_asesor) REFERENCES Asesor(id_asesor)
+CREATE TABLE tesis_asesor(
+    id_tesis INT NOT NULL,
+    id_asesor INT NOT NULL,
+    FOREIGN KEY (id_tesis) REFERENCES Tesis(id_tesis),
+    FOREIGN KEY (id_asesor) REFERENCES Asesor(id_asesor),
+    CONSTRAINT pk_tesis_asesor PRIMARY KEY (id_tesis,id_asesor)
 );
 
 -- Tabla Avance
@@ -71,6 +90,17 @@ CREATE TABLE Incidente (
     estado BOOLEAN NOT NULL DEFAULT TRUE,
     FOREIGN KEY (id_tesis) REFERENCES Tesis(id_tesis)
 );
+
+CREATE TABLE Revision(
+    id_revision INT AUTO_INCREMENT PRIMARY KEY,
+    id_tesis INT NOT NULL,
+    descripcion TEXT NOT NULL,
+    fecha DATE NOT NULL,
+    estado BOOLEAN NOT NULL DEFAULT TRUE,
+    id_asesor INT NOT NULL,
+    FOREIGN KEY (id_asesor) REFERENCES Asesor(id_asesor)
+);
+
 
 -- Insertar datos en la tabla Carrera
 INSERT INTO Carrera (nombre_carrera) VALUES
@@ -102,21 +132,3 @@ INSERT INTO Asesor (nombre_asesor, email, telefono) VALUES
 ('Carlos Pérez', 'carlos.perez@example.com', '50267890123'),
 ('Marta González', 'marta.gonzalez@example.com', '50289012345'),
 ('Juan López', 'juan.lopez@example.com', '50256789012');
- 
--- Insertar datos en la tabla Tesis
-INSERT INTO Tesis (tema, fecha_inicio, fecha_fin, id_estudiante, id_asesor) VALUES
-('Desarrollo de un sistema de gestión universitaria', '2024-01-15', NULL, 1, 1), -- Yennifer Maria
-('Optimización de motores eléctricos industriales', '2024-03-01', NULL, 2, 2), -- Fidel Fidencio
-('Análisis de jurisprudencia en casos civiles', '2024-02-20', NULL, 3, 3);
- 
--- Insertar datos en la tabla Avance
-INSERT INTO Avance (id_tesis, descripcion, fecha_avance) VALUES
-(1, 'Elaboración del marco teórico', '2024-02-15'),
-(1, 'Diseño del modelo conceptual', '2024-03-15'),
-(2, 'Pruebas de rendimiento en motores eléctricos', '2024-04-10'),
-(3, 'Revisión bibliográfica inicial', '2024-02-28');
- 
--- Insertar datos en la tabla Incidente
-INSERT INTO Incidente (id_tesis, descripcion, fecha_incidente) VALUES
-(1, 'Fallo en la recopilación de datos por falta de software', '2024-03-01'),
-(2, 'Retraso en la entrega de componentes para pruebas', '2024-04-01');

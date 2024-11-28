@@ -27,13 +27,21 @@ $studentDB = new StudentDB();
     <?php include "./components/navbar.php" ?>
 
     <main>
+        <section class="container">
+            <!-- Add messages here -->
+            <?php include "./controller/StudentController.php" ?>
+        </section>
+
         <section>
             <div class="row">
                 <div class="col-md-9">
                     <h1 class="text-center">Estudiantes</h1>
                 </div>
                 <div class="col-md-3">
-                    <button class="btn btn-success">Agregar estudiante</button>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#createStudentModal">
+                        Agregar
+                    </button>
                 </div>
             </div>
         </section>
@@ -85,9 +93,12 @@ $studentDB = new StudentDB();
                 </tbody>
             </table>
         </section>
+
+        <?php include "./components/students_modals.php"; ?>
     </main>
 
     <?php include "./components/footer.php" ?>
+    <script src="./assets/js/students.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>

@@ -22,16 +22,16 @@ class StudentDB
 
     public function create($conn, $student)
     {
-        $sql = $conn->query("INSERT INTO student 
+        $sql = $conn->query("INSERT INTO Estudiante 
         (id_estudiante, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, email, telefono) 
             VALUES (
-            '{$student->getId()}',
+            {$student->getId()},
             '{$student->getFirstName()}',
             '{$student->getSecondName()}',
             '{$student->getLastName()}',
             '{$student->getSecondLastName()}',
-            '{$student->getEmail()}'
-            '{$student->getPhone()}',
+            '{$student->getEmail()}',
+            '{$student->getPhone()}'
         )");
 
         return $sql;
@@ -40,7 +40,7 @@ class StudentDB
     public function update($conn, $student)
     {
         $firstUpdate = false;
-        $stmt = "UPDATE student SET ";
+        $stmt = "UPDATE Estudiante SET ";
         //updates
         if (!empty($student->getFirstName())) {
             $stmt .= "primer_nombre='" . $student->getFirstName() . "'";
@@ -105,7 +105,7 @@ class StudentDB
 
     public function get($conn, $id)
     {
-        $sql = "SELECT * FROM student WHERE id = $id";
+        $sql = "SELECT * FROM Estudiante WHERE id = $id";
         $result = $conn->query($sql);
         if ($row = $result->fetch_assoc()) {
             $student = new Student(
