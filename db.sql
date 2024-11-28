@@ -1,25 +1,30 @@
-DROP SCHEMA IF EXIST cunoc;
+DROP SCHEMA IF EXISTS cunoc;
 CREATE SCHEMA cunoc;
 USE cunoc;
 
 -- Tabla Carrera
 CREATE TABLE Carrera (
     id_carrera INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_carrera VARCHAR(100) NOT NULL
+    nombre_carrera VARCHAR(100) NOT NULL,
+    estado BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 -- Tabla Estudiante
 CREATE TABLE Estudiante (
     id_estudiante INT NOT NULL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    apellido VARCHAR(100) NOT NULL,
+    primer_nombre VARCHAR(100) NOT NULL,
+    segundo_nombre VARCHAR(100),
+    primer_apellido VARCHAR(100) NOT NULL,
+    segundo_apellido VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL,
-    telefono VARCHAR(15)
+    telefono VARCHAR(15),
+    estado BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE estudiante_carrera(
     id_estudiante INT NOT NULL,
     id_carrera INT NOT NULL,
+    estado BOOLEAN NOT NULL DEFAULT TRUE,
     FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id_estudiante),
     FOREIGN KEY (id_carrera) REFERENCES Carrera(id_carrera),
     CONSTRAINT pk_estudiante_carrera PRIMARY KEY (id_estudiante,id_carrera)
@@ -30,7 +35,8 @@ CREATE TABLE Asesor (
     id_asesor INT AUTO_INCREMENT PRIMARY KEY,
     nombre_asesor VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL,
-    telefono VARCHAR(15)
+    telefono VARCHAR(15),
+    estado BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 -- Tabla Tesis
@@ -41,6 +47,7 @@ CREATE TABLE Tesis (
     fecha_fin DATE,
     id_estudiante INT UNIQUE,
     id_asesor INT,
+    estado BOOLEAN NOT NULL DEFAULT TRUE,
     FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id_estudiante),
     FOREIGN KEY (id_asesor) REFERENCES Asesor(id_asesor)
 );
@@ -51,6 +58,7 @@ CREATE TABLE Avance (
     id_tesis INT NOT NULL,
     descripcion TEXT NOT NULL,
     fecha_avance DATE NOT NULL,
+    estado BOOLEAN NOT NULL DEFAULT TRUE,
     FOREIGN KEY (id_tesis) REFERENCES Tesis(id_tesis)
 );
 
@@ -60,6 +68,7 @@ CREATE TABLE Incidente (
     id_tesis INT NOT NULL,
     descripcion TEXT NOT NULL,
     fecha_incidente DATE NOT NULL,
+    estado BOOLEAN NOT NULL DEFAULT TRUE,
     FOREIGN KEY (id_tesis) REFERENCES Tesis(id_tesis)
 );
 
@@ -72,12 +81,13 @@ INSERT INTO Carrera (nombre_carrera) VALUES
 ('Arquitectura');
  
 -- Insertar datos en la tabla Estudiante
-INSERT INTO Estudiante (id_estudiante, nombre, apellido, email, telefono) VALUES
-(1, 'Yennifer Maria', 'de León Samuc', 'yennifer.leon@example.com', '50212345678'),
-(2, 'Fidel Fidencio', 'Balux Conoz', 'fidel.balux@example.com', '50287654321'),
-(3, 'Andrea', 'Ramírez García', 'andrea.ramirez@example.com', '50254321678'),
-(4, 'Luis Alberto', 'Hernández Soto', 'luis.hernandez@example.com', '50276543219'),
-(5, 'Karla Paola', 'Martínez López', 'karla.martinez@example.com', '50267891234');
+INSERT INTO Estudiante (id_estudiante, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, email, telefono) 
+VALUES
+(1, 'Yennifer', 'Maria', 'de León', 'Samuc', 'yennifer.leon@example.com', '50212345678'),
+(2, 'Fidel', 'Fidencio', 'Balux', 'Conoz', 'fidel.balux@example.com', '50287654321'),
+(3, 'Andrea', NULL, 'Ramírez', 'García', 'andrea.ramirez@example.com', '50254321678'),
+(4, 'Luis Alberto', NULL, 'Hernández', 'Soto', 'luis.hernandez@example.com', '50276543219'),
+(5, 'Karla Paola', NULL, 'Martínez', 'López', 'karla.martinez@example.com', '50267891234');
  
 -- Relacionar estudiantes con carreras en la tabla estudiante_carrera
 INSERT INTO estudiante_carrera (id_estudiante, id_carrera) VALUES
