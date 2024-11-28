@@ -99,7 +99,7 @@ class StudentDB
 
     public function delete($conn, $idStudent)
     {
-        $sql = $conn->query("UPDATE student SET status = FALSE WHERE id = $idStudent");
+        $sql = $conn->query("UPDATE Estudiante SET estado = FALSE WHERE id_estudiante = $idStudent");
         return $sql;
     }
 

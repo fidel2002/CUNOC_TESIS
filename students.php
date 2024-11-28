@@ -27,7 +27,7 @@ $studentDB = new StudentDB();
     <?php include "./components/navbar.php" ?>
 
     <main>
-        <section class="container">
+        <section>
             <!-- Add messages here -->
             <?php include "./controller/StudentController.php" ?>
         </section>

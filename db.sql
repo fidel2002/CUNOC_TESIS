@@ -99,7 +99,7 @@ CREATE TABLE Revision(
     estado BOOLEAN NOT NULL DEFAULT TRUE,
     id_asesor INT NOT NULL,
     FOREIGN KEY (id_asesor) REFERENCES Asesor(id_asesor),
-    FOREIGN KEY (id_tesis) REFERENCES Tesis(id_)
+    FOREIGN KEY (id_tesis) REFERENCES Tesis(id_tesis)
 );
 
 
