@@ -1,5 +1,4 @@
 <?php
-<<<<<<< HEAD
 //create
 if (!empty($_POST["createStudentBtn"])) {
     $id = $_POST['idAdd'];
@@ -75,18 +74,5 @@ if (!empty($_POST["modifyStudentBtn"])) {
     }
 
 }
-=======
-
-$conexion = new mysqli("127.0.0.1", "root", 
-"", "cunoc", 3306);
-
-/*
-otra forma
-$conexion= new mysqli("localhost","root","","fabrica2");
-*/
-
-
-    $conexion->set_charset("utf8");
->>>>>>> refs/remotes/origin/master
 
 ?>

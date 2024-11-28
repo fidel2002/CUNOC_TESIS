@@ -98,7 +98,8 @@ CREATE TABLE Revision(
     fecha DATE NOT NULL,
     estado BOOLEAN NOT NULL DEFAULT TRUE,
     id_asesor INT NOT NULL,
-    FOREIGN KEY (id_asesor) REFERENCES Asesor(id_asesor)
+    FOREIGN KEY (id_asesor) REFERENCES Asesor(id_asesor),
+    FOREIGN KEY (id_tesis) REFERENCES Tesis(id_)
 );
 
 
