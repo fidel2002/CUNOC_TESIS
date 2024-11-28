@@ -1,5 +1,5 @@
 <?php
-include "conexion.php";
+include "StudentController.php";
 
 // Lógica para agregar una nueva carrera
 if (isset($_POST['guardar_carrera'])) {

@@ -1,5 +1,5 @@
 <?php
-include "conexion.php";
+include "StudentController.php";
 
 // Lógica para agregar un nuevo asesor
 if (isset($_POST['guardar_asesor'])) {
