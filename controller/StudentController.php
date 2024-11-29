@@ -8,26 +8,31 @@ if (!empty($_POST["createStudentBtn"])) {
     $secondLastName = $_POST['secondLastNameAdd'];
     $phone = $_POST['phoneAdd'];
     $email = $_POST['emailAdd'];
-    $status = $studentDB->create(
-        $conexion, 
-        new Student(
-            $id, 
-            $firstName, 
-            $secondName, 
-            $lastName, 
-            $secondLastName, 
-            $phone, 
-            $email
-        )
-    );
-    if($status){
-        $alert = new Message('Se registro un estudiante nuevo', 'success');
-        echo $alert->getHtml();
-    } else {
-        $alert = new Message('Error: no se pudo insertar un estudiante', 'danger');
-        echo $alert->getHtml();
-    }
 
+    try {
+        $status = $studentDB->create(
+            $conexion, 
+            new Student(
+                $id, 
+                $firstName, 
+                $secondName, 
+                $lastName, 
+                $secondLastName, 
+                $phone, 
+                $email
+            )
+        );
+        if($status){
+            $alert = new Message('Se registro un estudiante nuevo', 'success');
+            echo $alert->getHtml();
+        } else {
+            $alert = new Message('Error: no se pudo insertar un estudiante', 'danger');
+            echo $alert->getHtml();
+        }
+    } catch (Exception $th) {
+        $alert = new Message('Error: El carne del estudiante esta repetido, intentalo de nuevo.', 'danger');
+            echo $alert->getHtml();
+    }
 }
 
 //delete
@@ -42,37 +47,4 @@ if (!empty($_POST["deleteStudentBtn"])) {
         echo $alert->getHtml();
     }
 }
-
-//modify
-if (!empty($_POST["modifyStudentBtn"])) {
-    $id = $_POST['idModify'];
-    $firstName = $_POST['firstNameM'];
-    $secondName = $_POST['secondNameM'] ?? null;
-    $lastName = $_POST['lastNameM'];
-    $secondLastName = $_POST['secondLastNameM'];
-    $phone = $_POST['phoneM'];
-    $email = $_POST['emailM'];
-    $status = $studentDB->update(
-        $conexion, 
-        new Student(
-            $id, 
-            $firstName, 
-            $secondName, 
-            $lastName, 
-            $secondLastName,  
-            $phone, 
-            $email
-        )
-    );
-    if($status){
-        $alert = new Message('Se modifico el estudiante', 'success');
-        echo $alert->getHtml();
-    } else {
-        $alert = new Message('Error: no se pudo modificar un estudiante, verifica los datos e intentalo de nuevo',
-             'danger');
-        echo $alert->getHtml();
-    }
-
-}
-
 ?>

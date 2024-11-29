@@ -27,12 +27,15 @@ $studentDB = new StudentDB();
     <?php include "./components/navbar.php" ?>
 
     <main>
-        <section>
+        <section class="px-5 pt-5">
             <!-- Add messages here -->
-            <?php include "./controller/StudentController.php" ?>
+            <?php 
+            include "./controller/StudentController.php" ;
+            include "./controller/modifyStudent.php"
+            ?>
         </section>
 
-        <section>
+        <section class="mt-5">
             <div class="row">
                 <div class="col-md-9">
                     <h1 class="text-center">Estudiantes</h1>
@@ -72,9 +75,9 @@ $studentDB = new StudentDB();
                                 <?= $student->getFirstName() ?>     <?= $student->getSecondName() ?>
                             </td>
                             <td class="text-center">
-                                <button class="btn btn-info" onclick="showMoreAboutStudent(<?= $student->getId() ?>)">
+                                <a class="btn btn-info" href="view_student.php?id=<?= $student->getId() ?>">
                                     <i class="bi bi-info-circle-fill"></i>
-                                </button>
+                                </a>
                             </td>
                             <td class="text-center">
                                 <button class="btn btn-warning"
@@ -94,7 +97,10 @@ $studentDB = new StudentDB();
             </table>
         </section>
 
-        <?php include "./components/students_modals.php"; ?>
+        <?php 
+            include "./components/students_modals.php";
+            include "./components/modify_student_modal.php" 
+        ?>
     </main>
 
     <?php include "./components/footer.php" ?>

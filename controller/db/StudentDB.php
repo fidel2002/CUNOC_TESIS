@@ -92,9 +92,14 @@ class StudentDB
             return false;
         }
 
-        $stmt .= " WHERE id=".$student->getId();
+        $stmt .= " WHERE id_estudiante =".$student->getId();
         $sql = $conn->query($stmt);
-        return $sql->num_rows > 0;
+
+        if($sql){
+            return $conn->affected_rows > 0;
+        } else {
+            return false;
+        }
     }
 
     public function delete($conn, $idStudent)
@@ -105,7 +110,7 @@ class StudentDB
 
     public function get($conn, $id)
     {
-        $sql = "SELECT * FROM Estudiante WHERE id = $id";
+        $sql = "SELECT * FROM Estudiante WHERE id_estudiante = $id AND estado = TRUE";
         $result = $conn->query($sql);
         if ($row = $result->fetch_assoc()) {
             $student = new Student(
