@@ -1,7 +1,15 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+include "model/Message.php";
 include "model/Conexion.php";
 include "model/Student.php";
+include "model/Carrer.php";
 include "controller/db/StudentDB.php";
+include "controller/db/CarrerDB.php";
+include "controller/db/StudentAditionalDataDB.php";
 
 $idStudent = $_GET['id'] ?? -1;
 $studentDB = new StudentDB();
@@ -39,7 +47,7 @@ $student = $studentDB->get($conexion, $idStudent);
             </div>
             <div>
                 <!--modify mss-->
-                <?php include "./controller/modifyStudent.php"?>
+                <?php include "./controller/modifyStudent.php" ?>
             </div>
             <ul class="list-group">
                 <li class="list-group-item">
@@ -104,21 +112,74 @@ $student = $studentDB->get($conexion, $idStudent);
                 </li>
             </ul>
         </section>
+
         <hr class="my-4">
+
         <section class="container">
+            <div>
+                <!--add carrer mss-->
+                <?php
+                $studentDataDB = new StudentAditionalDataDB();
+                include "./controller/StudentDataController.php"
+                    ?>
+            </div>
             <div class="row">
-                <div class="col-md-10 col">
+                <div class="col-md-9 col-12">
                     <h2>Carreras</h2>
                 </div>
-                <div class="col-md-2 col">
-                    <button class="btn btn-success">Agregar registro</button>
+                <form class="col-md-3 col-12" method="post">
+                    <div class="input-group mb-3">
+                        <select class="form-select" aria-label="Select career" name="addCarrer">
+                            <?php
+                            $carrerDB = new CarrerDB();
+                            $carrers = $carrerDB->getAll($conexion);
+                            foreach ($carrers as $carrer): ?>
+                                <option value="<?= $carrer->getId() ?>">
+                                    <?= $carrer->getName() ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <button class="btn btn-success" type="submit" name="addCarrerBtn" id="addCarrerBtn" value="ok">
+                            Agregar
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Id carrera</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col" class="text-center">Tesis registradas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $carrersStudent = $studentDataDB->getCarrers($conexion, $idStudent);
+                            foreach ($carrersStudent as $carrer): ?>
+                                <tr>
+                                    <th scope="row"><?= $carrer->getId() ?></th>
+                                    <td><?= $carrer->getName() ?></td>
+                                    <td class="text-center">
+                                        <a class="btn btn-secondary" 
+                                            href="view_tesis.php?s=<?= $idStudent ?>&c=<?= $carrer->getId() ?>">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-
         </section>
+
+
         <?php
-            include "./components/modify_student_modal.php"
-        ?>
+        include "./components/modify_student_modal.php"
+            ?>
     </main>
     <script src="assets/js/students.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

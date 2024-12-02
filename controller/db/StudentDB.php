@@ -119,7 +119,7 @@ class StudentDB
                 $row['segundo_nombre'] ?? '',
                 $row['primer_apellido'],
                 $row['segundo_apellido'],
-                $row['phone'],
+                $row['telefono'],
                 $row['email']
             );
             return $student;
