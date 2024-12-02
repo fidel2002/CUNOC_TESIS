@@ -48,7 +48,18 @@ $thesisArray = $studentDataDB->getTesis($conexion, $idStudent, $idCarrer);
         </section>
         <hr>
         <section class="container">
-            <h1>Tesis</h1>
+            <div class="container">
+                <div class="row">
+                    <div class="col-10">
+                        <h1>Tesis</h1>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-success">
+                            Nueva
+                        </button>
+                    </div>
+                </div>
+            </div>
             <table class="table">
                 <thead>
                     <tr>
